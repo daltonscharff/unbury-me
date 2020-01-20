@@ -5,7 +5,8 @@ const LoansReducer = (state, action) => {
                 {
                     name: action.name,
                     amount: action.amount,
-                    apr: action.apr
+                    apr: action.apr,
+                    minPayment: action.minPayment
                 }
             );
         case 'REMOVE_LOAN':
@@ -15,7 +16,8 @@ const LoansReducer = (state, action) => {
                 return action.i !== i ? loan : {
                     name: action.name,
                     amount: action.amount,
-                    apr: action.apr
+                    apr: action.apr,
+                    minPayment: action.minPayment
                 }
             });
         default:
