@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import numeral from 'numeral';
 
-const PaymentConfig = ({ minPayment = 1, maxPayment, monthlyPayment = 0, setMonthlyPayment, planType = 'avalanche', setPlanType }) => {
+const PaymentConfig = ({ loans = [], monthlyPayment, setMonthlyPayment }) => {
+    const [minPayment, setMinPayment] = useState(0);
+    const [maxPayment, setMaxPayment] = useState(0);
+    const [planType, setPlanType] = useState('avalanche');
 
     const handlePlanChange = (e) => setPlanType(e.target.value);
+
+    useEffect(() => {
+        setMinPayment(loans.reduce((total, loan) => total + loan.minPayment, 0));
+        setMaxPayment(loans.reduce((total, loan) => total + loan.amount, 0));
+        setMonthlyPayment(minPayment);
+    }, [loans, setMinPayment, setMaxPayment, setMonthlyPayment, minPayment]);
+
 
     return (
         <div className='card w1'>
@@ -25,8 +36,8 @@ const PaymentConfig = ({ minPayment = 1, maxPayment, monthlyPayment = 0, setMont
                 <hr />
 
                 <h2>Monthly Payment</h2>
-                <p>${monthlyPayment}</p>
-                <input type='range' min={minPayment} max={maxPayment} value={monthlyPayment} onChange={(e) => setMonthlyPayment(e.target.value)} />
+                <p className='bold green'>{numeral(monthlyPayment).format('$0,0.00')}</p>
+                <input type='range' min={minPayment} max={maxPayment / 12} value={monthlyPayment} onChange={(e) => setMonthlyPayment(e.target.value)} />
             </div>
         </div>
     );

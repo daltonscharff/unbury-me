@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import numeral from 'numeral';
 
 const LoanList = ({ loans, dispatch }) => {
     return (
@@ -22,7 +23,7 @@ const LoanListItem = ({ loan, i, dispatch }) => {
                     {loan.name}
                 </h2>
                 <p className='loan--info'>
-                    ${loan.amount} at {loan.apr}%
+                    {numeral(loan.amount).format('$0,0.00')} at {numeral(loan.apr / 100).format('0.00%')}
                 </p>
             </div>
             <div className='loan--body-right'>
