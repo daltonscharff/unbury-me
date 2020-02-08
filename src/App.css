@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -35,6 +36,14 @@ input[type='range'] {
     flex-grow: 1;
 }
 
+.bold {
+    font-weight: bold;
+}
+
+.green {
+    color: green;
+}
+
 .card {
     display: flex;
     flex-direction: column;
@@ -65,4 +74,38 @@ input[type='range'] {
 .loan--info {
     margin: 0px;
     color: grey;
+}
+
+.infoBox {
+    text-align: center;
+    background: lightblue;
+    padding: .5em 1em 1em;
+    color: white;
+}
+
+.infoBox--text-title {
+    font-size: 1.25em;
+    font-weight: lighter;
+    margin-bottom: .5em;
+}
+
+.infoBox--text-primary {
+    font-size: 1.5em;
+    padding-bottom: .25em;
+    margin: 0;
+}
+
+.infoBox--text-secondary {
+    font-weight: lighter;
+    font-size: 1em;
+    margin: 0;
+}
+
+.infoPanel {
+    flex-direction: row;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
 }

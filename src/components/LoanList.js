@@ -23,7 +23,7 @@ const LoanListItem = ({ loan, i, dispatch }) => {
                     {loan.name}
                 </h2>
                 <p className='loan--info'>
-                    {numeral(loan.amount).format('$0,0.00')} at {numeral(loan.apr / 100).format('0.00%')}
+                    {numeral(loan.principle).format('$0,0.00')} at {numeral(loan.interestRate).format('0.0[00]%')}
                 </p>
             </div>
             <div className='loan--body-right'>

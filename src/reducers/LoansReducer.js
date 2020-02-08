@@ -4,9 +4,9 @@ const LoansReducer = (state, action) => {
             return state.concat(
                 {
                     name: action.name,
-                    amount: action.amount,
-                    apr: action.apr,
-                    minPayment: action.minPayment
+                    principle: action.principle,
+                    interestRate: action.interestRate,
+                    minimumPayment: action.minimumPayment
                 }
             );
         case 'REMOVE_LOAN':
@@ -15,9 +15,9 @@ const LoansReducer = (state, action) => {
             return state.map((loan, i) => {
                 return action.i !== i ? loan : {
                     name: action.name,
-                    amount: action.amount,
-                    apr: action.apr,
-                    minPayment: action.minPayment
+                    principle: action.principle,
+                    interestRate: action.interestRate,
+                    minimumPayment: action.minimumPayment
                 }
             });
         default:
@@ -25,4 +25,4 @@ const LoansReducer = (state, action) => {
     }
 }
 
-export { LoansReducer as default };
+export default LoansReducer;
