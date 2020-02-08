@@ -25,6 +25,14 @@ test('Should get payoff amount', () => {
     expect(loan.getPayoffAmount()).toEqual(1004);
 });
 
-test('Should make loan payment', () => {
+test('Should make the minimum loan payment', () => {
     const loan = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
+    loan.makePayment();
+    expect(loan.remainingBalance).toEqual(994);
+});
+
+test('Should make the maximum loan payment', () => {
+    const loan = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
+    loan.makePayment(loan.getPayoffAmount());
+    expect(loan.remainingBalance).toEqual(0);
 });
