@@ -25,16 +25,16 @@ export default class LoanList {
                 return 0;
             },
             snowball: (a, b) => {
-                if (a.principle < b.principle) return -1;
-                if (b.principle < a.principle) return 1;
+                if (a.initialPrinciple < b.initialPrinciple) return -1;
+                if (b.initialPrinciple < a.initialPrinciple) return 1;
                 return 0;
             }
-        }
-        return this.loans.sort(sortingAlgorithms[type]);
+        };
+        this.loans = this.loans.sort(sortingAlgorithms[type]);
     }
 
     getTotalPrinciple() {
-        return this.loans.reduce((total, { principle }) => total + principle, 0);
+        return this.loans.reduce((total, { initialPrinciple }) => total + initialPrinciple, 0);
     }
 
     getRemainingBalance() {
@@ -43,7 +43,7 @@ export default class LoanList {
 
     getAverageInterest() {
         const totalPrinciple = this.getTotalPrinciple();
-        return this.loans.reduce((total, { interestRate, principle }) => total + (interestRate * (principle / totalPrinciple)), 0);
+        return this.loans.reduce((total, { interestRate, initialPrinciple }) => total + (interestRate * (initialPrinciple / totalPrinciple)), 0);
     }
 
     getMinimumPayment() {
