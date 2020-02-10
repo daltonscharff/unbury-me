@@ -10,9 +10,10 @@ test('Should create new loan', () => {
 test('Should deep copy loan', () => {
     const loan = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
     let loan_copy = loan.copy();
+    expect(loan_copy).toEqual(loan);
     loan_copy.id = 0;
-    expect(loan.name).toEqual(loan_copy.name);
-    expect(loan.id).not.toEqual(loan_copy.id);
+    expect(loan_copy.name).toEqual(loan.name);
+    expect(loan_copy.id).not.toEqual(loan.id);
 });
 
 test('Should get interest', () => {
@@ -25,6 +26,12 @@ test('Should get payoff amount', () => {
     expect(loan.getPayoffAmount()).toEqual(1004);
 });
 
+test('Should make the no loan payment', () => {
+    const loan = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
+    loan.makePayment(0);
+    expect(loan.remainingBalance).toEqual(1004);
+});
+
 test('Should make the minimum loan payment', () => {
     const loan = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
     loan.makePayment();
@@ -35,4 +42,10 @@ test('Should make the maximum loan payment', () => {
     const loan = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
     loan.makePayment(loan.getPayoffAmount());
     expect(loan.remainingBalance).toEqual(0);
+});
+
+test('Should make the more than the maximum loan payment', () => {
+    const loan = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
+    loan.makePayment(2000);
+    expect(loan.remainingBalance).toEqual(-996);
 });

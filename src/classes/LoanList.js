@@ -14,7 +14,7 @@ export default class LoanList {
     }
 
     copy() {
-        return new LoanList(this.loans.map((loan) => loan.copy()));
+        return new LoanList(...this.loans.map((loan) => loan.copy()));
     }
 
     sort(type = 'avalanche') {
@@ -51,15 +51,48 @@ export default class LoanList {
     }
 
     getAmortizationTable(monthlyPayment) {
-        monthlyPayment = monthlyPayment || this.getMinimumPayment();
-        let loanArray = this.copy();
+        monthlyPayment === undefined ? monthlyPayment = this.getMinimumPayment() : monthlyPayment;
+
+        let loanList = this.copy();
         let months = [];
+        let paymentPerLoan = this._dividePayment(loanList, monthlyPayment);
 
-        // while (loanArray.remainingBalance() > 0){
-        // month 1
+        for (let i = 0; loanList.getRemainingBalance() > 0 && i < 10; i++) {
+            let month = { monthNumber: i + 1, loans: [] };
 
+            loanList.loans.forEach((loan, j) => {
+                let loanInformation = { id: loan.id, amountPaid: paymentPerLoan[j] };
+                if (loan.remainingBalance > 0) {
+                    let remainingBalance = loan.makePayment(paymentPerLoan[j]);
+                    if (remainingBalance <= 0) {
+                        paymentPerLoan[j + 1] += Math.abs(remainingBalance);
+                        loanInformation.amountPaid += remainingBalance;
+                        paymentPerLoan[j] = 0;
+                        loan.remainingBalance = 0;
+                    }
+                }
+                month.loans.push(loanInformation);
+                month.remainingBalance = loanList.getRemainingBalance();
+            });
+            months.push(month);
+        }
 
+        return months;
+    }
 
+    _dividePayment(loanList, paymentRemaining) {
+        let paymentPerLoan = [];
+        loanList.loans.forEach((loan, i) => {
+            if (paymentRemaining > loan.minimumPayment) {
+                paymentPerLoan[i] = loan.minimumPayment;
+                paymentRemaining -= loan.minimumPayment;
+            } else {
+                paymentPerLoan[i] = paymentRemaining;
+                paymentRemaining = 0;
+            }
+        });
+        paymentPerLoan[0] += paymentRemaining;
+        return paymentPerLoan;
     }
 
     getTotalInterestPaid() {

@@ -12,7 +12,7 @@ export default class Loan {
     }
 
     copy() {
-        return new Loan(this.id, this.name, this.principle, this.interestRate, this.minimumPayment);
+        return new Loan(this.id, this.name, this.initialPrinciple, this.interestRate, this.minimumPayment);
     }
 
     getInterest() {
@@ -24,7 +24,7 @@ export default class Loan {
     }
 
     makePayment(amountPaid) {
-        amountPaid = amountPaid || this.minimumPayment;
+        amountPaid === undefined ? amountPaid = this.minimumPayment : amountPaid;
         const interestPaid = this.getInterest();
         const principlePaid = Math.round(amountPaid - interestPaid);
 

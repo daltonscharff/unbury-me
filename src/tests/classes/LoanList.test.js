@@ -31,10 +31,11 @@ test('Should deep copy loan list', () => {
     const loan1 = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
     const loan2 = new Loan(undefined, 'loan 2', 500, 0.05, 5);
     const loan3 = new Loan(undefined, 'loan 3', 2000, 0.06, 20);
-    const loansOriginal = new LoanList(loan1, loan2);
-    let loansCopy = loansOriginal.copy();
-    loansCopy.add(loan3);
-    expect(loansOriginal.loans).not.toContain(loan3);
+    const loans = new LoanList(loan1, loan2);
+    let loans_copy = loans.copy();
+    expect(loans_copy.loans).toEqual(loans.loans);
+    loans_copy.add(loan3);
+    expect(loans.loans).not.toContain(loan3);
 });
 
 test('Should avalanche sort (by interest rate)', () => {
@@ -87,4 +88,23 @@ test('Should get minimum payment', () => {
     const loan3 = new Loan(undefined, 'loan 3', 2000, 0.06, 20);
     const loans = new LoanList(loan1, loan2, loan3);
     expect(loans.getMinimumPayment()).toEqual(35);
+});
+
+test('Should divide payment among loans', () => {
+    const loan1 = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
+    const loan2 = new Loan(undefined, 'loan 2', 500, 0.05, 5);
+    const loan3 = new Loan(undefined, 'loan 3', 2000, 0.06, 20);
+    const loans = new LoanList(loan1, loan2, loan3);
+    expect(loans._dividePayment(loans, 40)).toEqual([15, 5, 20]);
+    expect(loans._dividePayment(loans, 12)).toEqual([10, 2, 0]);
+});
+
+test('Should return amortization table', () => {
+    const loan1 = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
+    const loan2 = new Loan(undefined, 'loan 2', 500, 0.05, 5);
+    const loan3 = new Loan(undefined, 'loan 3', 2000, 0.06, 20);
+    const loans = new LoanList(loan1, loan2, loan3);
+    loans.sort();
+    console.log(JSON.stringify(loans.getAmortizationTable(994)));
+    expect(false)
 });
