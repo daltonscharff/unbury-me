@@ -1,5 +1,6 @@
 import Loan from '../../classes/Loan';
 import LoanList from '../../classes/LoanList';
+import amortizationTableFixtures from '../fixtures/amortizationTable';
 
 test('Should create loan list', () => {
     const loan1 = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
@@ -99,12 +100,24 @@ test('Should divide payment among loans', () => {
     expect(loans._dividePayment(loans, 12)).toEqual([10, 2, 0]);
 });
 
-test('Should return amortization table', () => {
-    const loan1 = new Loan(undefined, 'loan 1', 1000, 0.05, 10);
-    const loan2 = new Loan(undefined, 'loan 2', 500, 0.05, 5);
-    const loan3 = new Loan(undefined, 'loan 3', 2000, 0.06, 20);
+test('Should return an avalanche sorted amortization table', () => {
+    const loan1 = new Loan('088c74cb-2043-403b-92e3-7181af326852', 'loan 1', 1000, 0.04, 10);
+    const loan2 = new Loan('9118aa69-4b81-49a6-ba08-fb9c71c01603', 'loan 2', 500, 0.05, 5);
+    const loan3 = new Loan('2a74ce13-9e5f-4f3a-810a-a430225ec66a', 'loan 3', 2000, 0.06, 20);
     const loans = new LoanList(loan1, loan2, loan3);
     loans.sort();
-    console.log(JSON.stringify(loans.getAmortizationTable(994)));
-    expect(false)
+
+    const monthlyPayment = 500;
+    expect(loans.getAmortizationTable(monthlyPayment)).toMatchObject(amortizationTableFixtures.avalanche);
+});
+
+test('Should return a snowball sorted amortization table', () => {
+    const loan1 = new Loan('088c74cb-2043-403b-92e3-7181af326852', 'loan 1', 1000, 0.04, 10);
+    const loan2 = new Loan('9118aa69-4b81-49a6-ba08-fb9c71c01603', 'loan 2', 500, 0.05, 5);
+    const loan3 = new Loan('2a74ce13-9e5f-4f3a-810a-a430225ec66a', 'loan 3', 2000, 0.06, 20);
+    const loans = new LoanList(loan1, loan2, loan3);
+    loans.sort('snowball');
+
+    const monthlyPayment = 500;
+    expect(loans.getAmortizationTable(monthlyPayment)).toMatchObject(amortizationTableFixtures.snowball);
 });
