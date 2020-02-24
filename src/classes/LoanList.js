@@ -57,26 +57,20 @@ export default class LoanList {
         let months = [];
         let paymentPerLoan = this._dividePayment(loanList, monthlyPayment);
 
-        for (let i = 0; loanList.getRemainingBalance() > 0 && i < 10; i++) {
-            let month = { monthNumber: i + 1, loans: [] };
-
+        for (let i = 0; loanList.getRemainingBalance() > 0; i++) {
+            let month = { paymentNumber: i + 1, loans: [] };
             loanList.loans.forEach((loan, j) => {
-                let loanInformation = { id: loan.id, amountPaid: paymentPerLoan[j] };
-                if (loan.remainingBalance > 0) {
-                    let remainingBalance = loan.makePayment(paymentPerLoan[j]);
-                    if (remainingBalance <= 0) {
-                        paymentPerLoan[j + 1] += Math.abs(remainingBalance);
-                        loanInformation.amountPaid += remainingBalance;
-                        paymentPerLoan[j] = 0;
-                        loan.remainingBalance = 0;
-                    }
+                let record = loan.makePayment(paymentPerLoan[j]);
+
+                if (record.overpayment) {
+                    paymentPerLoan[j + 1] += record.overpayment;
                 }
-                month.loans.push(loanInformation);
-                month.remainingBalance = loanList.getRemainingBalance();
+
+                delete record.overpayment;
+                month.loans.push({ id: loan.id, ...record });
             });
             months.push(month);
         }
-
         return months;
     }
 

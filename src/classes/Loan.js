@@ -1,7 +1,7 @@
 const uuid = require('uuid/v4');
 
 export default class Loan {
-    constructor(id, name, principle, interestRate, minimumPayment) {
+    constructor(name, principle, interestRate, minimumPayment, id) {
         this.id = id || uuid();
         this.name = name;
         this.initialPrinciple = principle;
@@ -12,7 +12,7 @@ export default class Loan {
     }
 
     copy() {
-        return new Loan(this.id, this.name, this.initialPrinciple, this.interestRate, this.minimumPayment);
+        return new Loan(this.name, this.initialPrinciple, this.interestRate, this.minimumPayment, this.id);
     }
 
     getInterest() {
@@ -23,14 +23,29 @@ export default class Loan {
         return Math.round(this.remainingBalance + this.getInterest());
     }
 
-    makePayment(amountPaid) {
-        amountPaid === undefined ? amountPaid = this.minimumPayment : amountPaid;
-        const interestPaid = this.getInterest();
-        const principlePaid = Math.round(amountPaid - interestPaid);
+    makePayment(payment) {
+        payment = (payment === undefined) ? this.minimumPayment : payment;
+        let amountPaid = {
+            total: payment,
+            toInterest: this.getInterest(),
+            toPrinciple: payment - this.getInterest()
+        };
 
-        this.totalInterestPaid += interestPaid;
-        this.remainingBalance -= principlePaid;
+        this.remainingBalance -= amountPaid.toPrinciple;
+        this.totalInterestPaid += amountPaid.toInterest;
 
-        return this.remainingBalance;
+        let overpayment = 0;
+        if (this.remainingBalance < 0) {
+            amountPaid.toPrinciple += this.remainingBalance;
+            amountPaid.total = amountPaid.toInterest + amountPaid.toPrinciple;
+            overpayment = Math.abs(this.remainingBalance);
+            this.remainingBalance = 0;
+        }
+
+        return {
+            amountPaid,
+            remainingBalance: this.remainingBalance,
+            overpayment
+        };
     }
 }
