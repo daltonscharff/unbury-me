@@ -5,12 +5,11 @@ const Loan = ({ loan = {}, dispatch }) => {
     const [name, setName] = useState(loan.name);
     const [initialPrinciple, setInitialPrinciple] = useState(loan.initialPrinciple);
 
-
     return (
         <div>
             <label>
                 id:
-                <input type='text' value={id || ''} onChange={(e) => setId(e.target.value)} />
+                <input type='text' value={id || ''} onChange={(e) => setId(e.target.value)} readOnly disabled />
             </label>
             <br />
             <label>
@@ -31,6 +30,12 @@ const Loan = ({ loan = {}, dispatch }) => {
                     initialPrinciple
                 });
             }}>Save</button>
+            <button onClick={() => {
+                dispatch({
+                    type: 'delete',
+                    id
+                });
+            }}>Delete</button>
         </div>
     );
 }

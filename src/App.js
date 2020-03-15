@@ -18,12 +18,10 @@ const App = () => {
 
   return (
     <div>
-      <div>HI!</div>
-
       <button onClick={createNewLoan}>Add a loan</button>
 
-      {loans.map((loan, index) => {
-        return <Loan key={index} loan={loan} dispatch={loansDispatch} />
+      {loans.map((loan) => {
+        return <Loan key={loan.id} loan={loan} dispatch={loansDispatch} />
       })}
     </div>
   )

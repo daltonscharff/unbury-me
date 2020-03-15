@@ -16,8 +16,10 @@ const LoansReducer = (state = [], action) => {
                     }
                 }
             })
-        case 'list':
-            return state;
+        case 'delete':
+            return state.filter((value) => value.id !== action.id);
+        case 'read':
+            return [...state];
         default:
             return new Error('Not a valid action type.');
     }
