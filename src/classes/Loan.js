@@ -1,3 +1,5 @@
+import { updateLocale } from 'moment';
+
 const uuid = require('uuid/v4');
 
 export default class Loan {
@@ -15,20 +17,24 @@ export default class Loan {
         return new Loan(this.name, this.initialPrinciple, this.interestRate, this.minimumPayment, this.id);
     }
 
-    getInterest() {
+    _update() {
+        this.payoffAmount = this._getPayoffAmount();
+    }
+
+    _getInterest() {
         return Math.round(this.remainingBalance * this.interestRate / 12);
     }
 
-    getPayoffAmount() {
-        return Math.round(this.remainingBalance + this.getInterest());
+    _getPayoffAmount() {
+        return Math.round(this.remainingBalance + this._getInterest());
     }
 
     makePayment(payment) {
         payment = (payment === undefined) ? this.minimumPayment : payment;
         let amountPaid = {
             total: payment,
-            toInterest: this.getInterest(),
-            toPrinciple: payment - this.getInterest()
+            toInterest: this._getInterest(),
+            toPrinciple: payment - this._getInterest()
         };
 
         this.remainingBalance -= amountPaid.toPrinciple;
@@ -41,6 +47,8 @@ export default class Loan {
             overpayment = Math.abs(this.remainingBalance);
             this.remainingBalance = 0;
         }
+
+        this._update();
 
         return {
             amountPaid,

@@ -1,16 +1,20 @@
-const Loan = require('./Loan');
-
 export default class LoanList {
     constructor() {
         this.loans = [...arguments];
+        this.sortType = 'avalanche';
+        // this._update();
     }
 
     add(loan) {
         this.loans.push(loan);
+        // this._update();
+        console.log('adding');
+        return this;
     }
 
     remove(id) {
         this.loans = this.loans.filter((loan) => loan.id !== id);
+        // this._update();
     }
 
     copy() {
@@ -18,6 +22,7 @@ export default class LoanList {
     }
 
     sort(type = 'avalanche') {
+        this.sortType = type;
         const sortingAlgorithms = {
             avalanche: (a, b) => {
                 if (a.interestRate > b.interestRate) return -1;
@@ -30,48 +35,75 @@ export default class LoanList {
                 return 0;
             }
         };
-        this.loans = this.loans.sort(sortingAlgorithms[type]);
+        // this.loans = this.loans.sort(sortingAlgorithms[type]);
     }
 
-    getTotalPrinciple() {
+    _update() {
+        this.sort();
+        this.totalPrinciple = this._getTotalPrinciple();
+        this.remainingBalance = this._getRemainingBalance();
+        this.averageInterest = this._getAverageInterest();
+        this.minimumPayment = this._getMinimumPayment();
+        this.amortizationTable = this._getAmortizationTable();
+    }
+
+    _getTotalPrinciple() {
         return this.loans.reduce((total, { initialPrinciple }) => total + initialPrinciple, 0);
     }
 
-    getRemainingBalance() {
+    _getRemainingBalance() {
         return this.loans.reduce((total, { remainingBalance }) => total + remainingBalance, 0);
     }
 
-    getAverageInterest() {
-        const totalPrinciple = this.getTotalPrinciple();
+    _getAverageInterest() {
+        const totalPrinciple = this._getTotalPrinciple();
         return this.loans.reduce((total, { interestRate, initialPrinciple }) => total + (interestRate * (initialPrinciple / totalPrinciple)), 0);
     }
 
-    getMinimumPayment() {
+    _getMinimumPayment() {
         return this.loans.reduce((total, { minimumPayment }) => total + minimumPayment, 0);
     }
 
-    getAmortizationTable(monthlyPayment) {
-        monthlyPayment === undefined ? monthlyPayment = this.getMinimumPayment() : monthlyPayment;
+    _getAmortizationTable(monthlyPayment) {
+        monthlyPayment === undefined ? monthlyPayment = this._getMinimumPayment() : monthlyPayment = monthlyPayment;
+        return new AmortizationTable(this.copy(), monthlyPayment);
+    }
+}
 
-        let loanList = this.copy();
-        let months = [];
+class AmortizationTable {
+    constructor(loanList, monthlyPayment) {
+        this.amortizationTable = this._getTable(loanList, monthlyPayment);
+        this.totalInterestPaid = loanList.loans.reduce((total, loan) => total + loan.totalInterestPaid, 0);
+        this.monthsUntilPayoff = this.amortizationTable.length;
+    }
+
+    _getTable(loanList, monthlyPayment) {
+        let table = [];
         let paymentPerLoan = this._dividePayment(loanList, monthlyPayment);
 
-        for (let i = 0; loanList.getRemainingBalance() > 0; i++) {
-            let month = { paymentNumber: i + 1, loans: [] };
-            loanList.loans.forEach((loan, j) => {
-                let record = loan.makePayment(paymentPerLoan[j]);
-
-                if (record.overpayment) {
-                    paymentPerLoan[j + 1] += record.overpayment;
-                }
-
-                delete record.overpayment;
-                month.loans.push({ id: loan.id, ...record });
-            });
-            months.push(month);
+        while (loanList.getRemainingBalance() > 0) {
+            let record = this._getRecord(loanList, paymentPerLoan);
+            table.push(record);
         }
-        return months;
+
+        return table;
+    }
+
+    _getRecord(loanList, paymentPerLoan) {
+        let record = [];
+
+        loanList.loans.forEach((loan, i) => {
+            let payment = loan.makePayment(paymentPerLoan[i]);
+
+            if (payment.overpayment) {
+                paymentPerLoan[i + 1] += payment.overpayment;
+            }
+
+            delete payment.overpayment;
+            record.push({ id: loan.id, ...payment });
+        });
+
+        return record;
     }
 
     _dividePayment(loanList, paymentRemaining) {
@@ -87,13 +119,5 @@ export default class LoanList {
         });
         paymentPerLoan[0] += paymentRemaining;
         return paymentPerLoan;
-    }
-
-    getTotalInterestPaid() {
-
-    }
-
-    getPayoffDate() {
-
     }
 }

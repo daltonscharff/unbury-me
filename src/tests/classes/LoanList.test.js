@@ -91,15 +91,6 @@ test('Should get minimum payment', () => {
     expect(loans.getMinimumPayment()).toEqual(35);
 });
 
-test('Should divide payment among loans', () => {
-    const loan1 = new Loan('loan 1', 1000, 0.05, 10);
-    const loan2 = new Loan('loan 2', 500, 0.05, 5);
-    const loan3 = new Loan('loan 3', 2000, 0.06, 20);
-    const loans = new LoanList(loan1, loan2, loan3);
-    expect(loans._dividePayment(loans, 40)).toEqual([15, 5, 20]);
-    expect(loans._dividePayment(loans, 12)).toEqual([10, 2, 0]);
-});
-
 test('Should return an amortization table from a single loan', () => {
     const loan1 = new Loan('loan 1', 2000, 0.06, 20, 'loan1');
     const loans = new LoanList(loan1);
