@@ -36,7 +36,7 @@ const MyLoansEntry = ({ loan = {}, dispatch }) => {
             <br />
             <button onClick={() => {
                 dispatch({
-                    type: 'update',
+                    type: 'update_loan',
                     id,
                     name,
                     principle,
@@ -46,7 +46,7 @@ const MyLoansEntry = ({ loan = {}, dispatch }) => {
             }}>Save</button>
             <button onClick={() => {
                 dispatch({
-                    type: 'delete',
+                    type: 'remove_loan',
                     id
                 });
             }}>Delete</button>

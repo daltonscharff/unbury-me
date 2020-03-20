@@ -1,5 +1,3 @@
-import { updateLocale } from 'moment';
-
 const uuid = require('uuid/v4');
 
 export default class Loan {

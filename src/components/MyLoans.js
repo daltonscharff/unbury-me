@@ -3,7 +3,7 @@ import MyLoansEntry from './MyLoansEntry';
 
 const MyLoans = ({ loans, dispatch }) => {
     const createNewLoan = () => {
-        dispatch({ type: 'create' });
+        dispatch({ type: 'add_loan' });
     };
 
     return (
