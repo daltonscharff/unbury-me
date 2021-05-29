@@ -1,35 +1,71 @@
 const uuid = require('uuid/v4');
 
-const LoansReducer = (state = [], action) => {
+class Loan {
+    constructor(name, principle, interestRate, minimumPayment, id) {
+        this.id = id || uuid();
+        this.name = name;
+        this.principle = principle;
+        this.interestRate = interestRate;
+        this.minimumPayment = minimumPayment;
+
+        const interest = this.principle * this.interestRate;
+        if (minimumPayment <= interest) {
+            throw new Error(`Minimum payment cannot be below ${interest}.`);
+        }
+    }
+}
+
+class LoanList {
+    constructor() {
+        this.loans = [...arguments];
+        this.totalPrinciple = this._getTotalPrinciple(this.loans);
+        this.averageInterestRate = this._getAverageInterestRate(this.loans, this.totalPrinciple);
+        this.minimumPayment = this._getMinimumPayment(this.loans);
+    }
+
+    _getTotalPrinciple(loans) {
+        return loans.reduce((total, loan) => total + loan.principle, 0);
+    }
+
+    _getAverageInterestRate(loans, totalPrinciple) {
+        return loans.reduce((total, loan) => {
+            return total + (loan.interestRate * (loan.principle / totalPrinciple));
+        }, 0);
+    }
+
+    _getMinimumPayment(loans) {
+        return loans.reduce((total, loan) => total + loan.minimumPayment, 0);
+    }
+}
+
+const LoansReducer = (state = new LoanList(), action) => {
     switch (action.type.toLowerCase()) {
-        case 'add_loan':
-            return [...state,
-            {
-                id: uuid(),
-                name: action.name || '',
-                principle: action.principle || 0,
-                interestRate: action.interestRate || 0,
-                minimumPayment: action.minimumPayment || 0
-            }];
-        case 'update_loan':
-            return state.map((loan) => {
-                if (loan.id !== action.id) {
-                    return loan;
+        case 'add':
+            return new LoanList(...state.loans, new Loan(
+                action.name,
+                action.principle,
+                action.interestRate,
+                action.minimumPayment
+            ));
+        case 'update':
+            return new LoanList(...state.loans.map((loan) => {
+                if (loan.id === action.id) {
+                    return new Loan(
+                        action.name || loan.name,
+                        action.principle || loan.principle,
+                        action.interestRate || loan.interestRate,
+                        action.minimumPayment || loan.minimumPayment,
+                        loan.id
+                    );
                 } else {
-                    return {
-                        id: action.id,
-                        name: action.name,
-                        principle: parseFloat(action.principle) || 0,
-                        interestRate: parseFloat(action.interestRate) || 0,
-                        minimumPayment: parseFloat(action.minimumPayment) || 0
-                    }
+                    return loan;
                 }
-            })
-        case 'remove_loan':
-            return state.filter((loan) => loan.id !== action.id);
+            }))
+        case 'remove':
+            return new LoanList(...state.loans.filter((loan) => loan.id !== action.id));
         default:
             return new Error('Not a valid action type.');
-    }
+    };
 };
 
-export default LoansReducer;
+export { LoansReducer as default, Loan, LoanList };

@@ -7,7 +7,7 @@ export default class LoanList {
 
     add(loan) {
         this.loans.push(loan);
-        // this._update();
+        console.log(this.loans);
         return this;
     }
 
