@@ -67,8 +67,17 @@
 
     const generatePayoffTable = (loans, payment) => {
         createMonthZero(loans);
-        calculatePayment(loans, payment);
-        calculatePayment(loans, payment);
+
+        for (let i = 0; i < 100; i++) {
+            calculatePayment(loans, payment);
+            let currentMonth = months[months.length - 1];
+            let remaining = 0;
+            for (let loanName of currentMonth.keys()) {
+                remaining += currentMonth.get(loanName).remainingPrincipal;
+            }
+
+            if (remaining === 0) break;
+        }
     };
 
     $: generatePayoffTable(sortedLoans, $monthlyPayment);
