@@ -18,7 +18,7 @@
     </label>
 
     <p>monthly payment: {$monthlyPayment}</p>
-    <input type="range" bind:value="{$monthlyPayment}" min="{minimumMonthlyPayment}" max="{maximumMonthlyPayment / 4}" />
+    <input type="range" bind:value="{$monthlyPayment}" min="{minimumMonthlyPayment}" max="{maximumMonthlyPayment}" />
 </div>
 
 <style>
