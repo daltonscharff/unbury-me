@@ -16,3 +16,5 @@ export const loans: Writable<{ name: string, principal: number, interestPct: num
 
 export const monthlyPayment: Writable<number> = writable(0);
 
+export const paymentPlan: Writable<"avalanche" | "snowball"> = writable("avalanche");
+

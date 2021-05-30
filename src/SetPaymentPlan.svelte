@@ -1,15 +1,25 @@
 <script lang="ts">
-	import { loans } from "./stores";
-    import LoanList from "./LoanList.svelte";
-	import AddLoan from "./AddLoan.svelte";
+	import { loans, monthlyPayment, paymentPlan } from "./stores";
 
    $: minimumMonthlyPayment = $loans.reduce((total, loan) => total + loan.minPayment, 0);
+   $: maximumMonthlyPayment = $loans.reduce((total, loan) => total + loan.principal, 0);
+   $: $monthlyPayment = minimumMonthlyPayment;
 </script>
 
-<main>
+<div>
 	<h1>Set Payment Plan</h1>
-    <p>minimumMonthlyPayment: {minimumMonthlyPayment}</p>
-</main>
+    <label>
+        <input type="radio" bind:group={$paymentPlan} value="avalanche">
+        Highest Interest Rate (Avalanche)
+    </label>
+    <label>
+        <input type="radio" bind:group={$paymentPlan} value="snowball">
+        Lowest Principal (Snowball)
+    </label>
+
+    <p>monthly payment: {$monthlyPayment}</p>
+    <input type="range" bind:value="{$monthlyPayment}" min="{minimumMonthlyPayment}" max="{maximumMonthlyPayment / 4}" />
+</div>
 
 <style>
 </style>
