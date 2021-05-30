@@ -39,8 +39,8 @@
             let principalLastMonth = months[months.length - 1].get(loan.name).remainingPrincipal;
             let record = {
                 remainingPrincipal: principalLastMonth - loan.minPayment,
-                payment: loan.minPayment,
-            }
+                payment: principalLastMonth < loan.minPayment ? principalLastMonth : loan.minPayment,
+            };
             if (record.remainingPrincipal < 0) {
                 payment += record.remainingPrincipal;
                 record.remainingPrincipal = 0;
