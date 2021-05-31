@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { loans, monthlyPayment, paymentPlan } from "./stores";
+    import { loans, monthlyPayment, paymentPlan, paymentSchedule } from "./stores";
 
     type Month = Map<
         string,
@@ -67,7 +67,7 @@
         months = [...months, month];
     };
 
-    const generatePayoffTable = (loans, payment) => {
+    const generatePaymentSchedule = (loans, payment) => {
         createMonthZero(loans);
 
         for (let i = 0; i < 100; i++) {
@@ -80,13 +80,14 @@
 
             if (remaining === 0) break;
         }
+        return months;
     };
 
-    $: generatePayoffTable(sortedLoans, $monthlyPayment);
+    $: $paymentSchedule = generatePaymentSchedule(sortedLoans, $monthlyPayment);
 </script>
 
 <div>
-    <h1>Payoff Table</h1>
+    <h1>Payoff Schedule</h1>
     <table>
         <tr>
             <th>Month</th>

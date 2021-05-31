@@ -18,3 +18,5 @@ export const monthlyPayment: Writable<number> = writable(0);
 
 export const paymentPlan: Writable<"avalanche" | "snowball"> = writable("avalanche");
 
+export const paymentSchedule: Writable<any[]> = writable([]);
+

@@ -1,13 +1,15 @@
 <script lang="ts">
 	import LoanList from "./LoanList.svelte";
-	import PayoffTable from "./PayoffTable.svelte";
+	import PaymentSchedule from "./PaymentSchedule.svelte";
+	import QuickFacts from "./QuickFacts.svelte";
 	import SetPaymentPlan from "./SetPaymentPlan.svelte";
 </script>
 
 <main>
 	<LoanList />
 	<SetPaymentPlan />
-	<PayoffTable />
+	<QuickFacts />
+	<PaymentSchedule />
 </main>
 
 <style>
