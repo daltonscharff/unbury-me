@@ -37,6 +37,8 @@
 
         for (let loan of loans) {
             let principalLastMonth = months[months.length - 1].get(loan.name).remainingPrincipal;
+            let interest = loan.interestPct * 0.01 / 12 * principalLastMonth;
+            principalLastMonth += interest;
             let record = {
                 remainingPrincipal: principalLastMonth - loan.minPayment,
                 payment: principalLastMonth < loan.minPayment ? principalLastMonth : loan.minPayment,
@@ -97,8 +99,8 @@
                 <tr>
                     <td>{i}</td>
                     <td>{loanName}</td>
-                    <td>{month.get(loanName).payment}</td>
-                    <td>{month.get(loanName).remainingPrincipal}</td>
+                    <td>${month.get(loanName).payment.toFixed(2)}</td>
+                    <td>${month.get(loanName).remainingPrincipal.toFixed(2)}</td>
                 </tr>
             {/each}
         {/each}
