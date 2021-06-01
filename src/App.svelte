@@ -6,11 +6,22 @@
 </script>
 
 <main class="ui container">
-	<LoanList />
-	<SetPaymentPlan />
-	<QuickFacts />
-	<PaymentSchedule />
+	<section>
+		<LoanList />
+	</section>
+	<section>
+		<SetPaymentPlan/>
+		<QuickFacts />
+	</section>
+	<section>
+		<PaymentSchedule />
+	</section>
 </main>
 
 <style>
+section {
+	margin: 1em 0 2em;
+	display: flex;
+	flex-direction: row;
+}
 </style>

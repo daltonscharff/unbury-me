@@ -86,7 +86,7 @@
     $: $paymentSchedule = generatePaymentSchedule(sortedLoans, $monthlyPayment);
 </script>
 
-<div>
+<div class="ui container">
     <h1>Payoff Schedule</h1>
     <table class="ui celled structured unstackable table">
         <thead>

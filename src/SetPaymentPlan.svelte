@@ -12,7 +12,7 @@
     $: $monthlyPayment = minimumMonthlyPayment;
 </script>
 
-<div>
+<div class="ui container">
     <h1>Set Payment Plan</h1>
     <div class="ui form">
         <div class="grouped fields">

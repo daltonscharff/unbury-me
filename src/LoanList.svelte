@@ -29,7 +29,7 @@
 	};
 </script>
 
-<div>
+<div class="ui container">
 	<h1>Loans</h1>
 	<div class="ui cards">
 		{#each $loans as loan, i}

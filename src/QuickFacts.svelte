@@ -11,7 +11,7 @@
     $: averageInterest = $loans.reduce((total, loan) => total + (loan.interestPct * loan.principal / totalOwed), 0);
 </script>
 
-<div>
+<div class="ui container">
     <h1>Quick Facts</h1>
     <p>Total Owed: ${totalOwed}</p>
     <p>Months: {$paymentSchedule.length - 1}</p>
