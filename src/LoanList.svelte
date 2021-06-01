@@ -31,86 +31,70 @@
 
 <div>
 	<h1>Loans</h1>
-	<div class="container">
+	<div class="ui cards">
 		{#each $loans as loan, i}
 		<div class="card">
-			<div class="title">
-				<h1>{loan.name}</h1>
-				<span on:click={() => deleteLoan(i)} class="material-icons-outlined">delete</span>
-			</div>
 			<div class="content">
-				<p>${loan.principal}</p>
-				<p>{loan.interestPct}% interest</p>
-				<p>${loan.minPayment}/month</p>
+				<span on:click={() => deleteLoan(i)} class="material-icons right floated icon">delete</span>
+				<div class="header">
+					{loan.name}
+				</div>
+				<div class="description">
+					<div>
+						<b>Principal: </b>
+						${loan.principal}
+					</div>
+					<div>
+						<b>Interest: </b>
+						{loan.interestPct}%
+					</div>
+					<div>
+						<b>Monthly Payment: </b>
+						${loan.minPayment}
+					</div>
+				</div>
 			</div>
 		</div>
 		{/each}
-		<div class="card new-card">
-			<input type="text" placeholder="Name" bind:value={newLoan.name} />
-			<input type="number" placeholder="Principal" bind:value={newLoan.principal} /> 
-			<input type="number" placeholder="Interest %" bind:value={newLoan.interestPct} /> 
-			<input type="number" placeholder="Minimum Payment" bind:value={newLoan.minPayment} /> 
-			<button on:click="{addNewLoan}">Add</button>
+		<div class="card">
+			<div class="content">
+				<form class="ui form">
+					<input type="text" placeholder="Loan Name" bind:value={newLoan.name} />
+					<input type="number" placeholder="Principal" bind:value={newLoan.principal} /> 
+					<input type="number" placeholder="Interest %" bind:value={newLoan.interestPct} /> 
+					<input type="number" placeholder="Minimum Payment" bind:value={newLoan.minPayment} />
+				</form>
+			</div>
+			<div class="ui bottom attracted button" on:click="{addNewLoan}">
+				Add Loan
+			</div>
 		</div>
 	</div>
 </div>
 
 <style type="text/scss">	
-.container {
-	display: flex;
-	flex-wrap: wrap;
+.material-icons {
+	cursor: pointer;
+	font-size: 1.2em;
+	color: #333;
 }
 
 .card {
-	padding: 1em;
-	box-shadow: 0 1px 1px #999;
-	margin: 1em;
-	min-width: 13em;
-	display: flex;
-	flex-direction: column;
-
-	p {
-		margin: 0 0 .25em;
-	}
-	
-	.title {
-		align-items: center;
-		justify-content: space-between;
-		display: flex;
-		flex-direction: row;
-		margin: 0 0 .25em;
-
-		h1 {
-			font-size: 1.5em;
-			padding-right: 2em;
-			margin: 0;
-		}
-
-		span {
-			cursor: pointer;
-		}
-	}
-
-	.content {
-		height: 100%;
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-
-		p {
-			margin: .5em 0;
-		}
-	}
+	flex-grow: 1;
 }
 
-.new-card {
-	display: flex;
-	flex-direction: column;
+input {
+	border-top: 0 !important;
+	border-left: 0 !important;
+	border-right: 0 !important;
+	padding-left: .25em !important;
+}
 
-	input {
-		border: none;
-		padding: 1px 0;
-		border-bottom: 1px solid #999;
-	}
+input[type=number] {
+  -moz-appearance: textfield !important;
+}
+
+::placeholder {
+	color: #333 !important;
 }
 </style>

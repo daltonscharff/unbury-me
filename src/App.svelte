@@ -5,7 +5,7 @@
 	import SetPaymentPlan from "./SetPaymentPlan.svelte";
 </script>
 
-<main>
+<main class="ui container">
 	<LoanList />
 	<SetPaymentPlan />
 	<QuickFacts />

@@ -88,23 +88,31 @@
 
 <div>
     <h1>Payoff Schedule</h1>
-    <table>
-        <tr>
-            <th>Month</th>
-            <th>Loan Name</th>
-            <th>Payment</th>
-            <th>Remaining</th>
-        </tr>
-        {#each months as month, i}
-            {#each [...month.keys()] as loanName}
-                <tr>
-                    <td>{i}</td>
-                    <td>{loanName}</td>
-                    <td>${month.get(loanName).payment.toFixed(2)}</td>
-                    <td>${month.get(loanName).remainingPrincipal.toFixed(2)}</td>
-                </tr>
+    <table class="ui celled structured unstackable table">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Loan</th>
+                <th>Payment</th>
+                <th>Remaining</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each months as month, i}
+            {#if i > 0}
+            {#each [...month.keys()] as loanName, j}
+            <tr>
+                {#if j === 0}
+                <td rowspan={$loans.length}>{i}</td>
+                {/if}
+                <td>{loanName}</td>
+                <td>${month.get(loanName).payment.toFixed(2)}</td>
+                <td>${month.get(loanName).remainingPrincipal.toFixed(2)}</td>
+            </tr>
             {/each}
-        {/each}
+            {/if}
+            {/each}
+        </tbody>
     </table>
 </div>
 

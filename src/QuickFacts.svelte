@@ -13,7 +13,8 @@
 
 <div>
     <h1>Quick Facts</h1>
-    <p>Months: {$paymentSchedule.length}</p>
+    <p>Total Owed: ${totalOwed}</p>
+    <p>Months: {$paymentSchedule.length - 1}</p>
     <p>Interest Paid: ${(totalPaid - totalOwed).toFixed(2)}</p>
     <p>Average Interest Rate: {averageInterest.toFixed(2)}%</p>
 </div>
