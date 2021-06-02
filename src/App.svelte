@@ -5,23 +5,35 @@
 	import SetPaymentPlan from "./SetPaymentPlan.svelte";
 </script>
 
-<main class="ui container">
-	<section>
-		<LoanList />
-	</section>
-	<section>
+<main class="ui container flex">
+	<div class="flex inputs">
 		<SetPaymentPlan/>
+		<LoanList />
+	</div>
+	<div class="flex outputs">
 		<QuickFacts />
-	</section>
-	<section>
 		<PaymentSchedule />
-	</section>
+	</div>
 </main>
 
 <style>
-section {
-	margin: 1em 0 2em;
-	display: flex;
-	flex-direction: row;
+.flex {
+	flex-wrap: wrap;
+	flex-grow: 1;
+	flex-shrink: 1;
+	margin: 1em;
+}
+
+.inputs {
+	min-width: 250px;
+	width: 300px;
+}
+
+.outputs {
+	width: 60%;
+}
+
+div.flex {
+	flex-direction: column;
 }
 </style>

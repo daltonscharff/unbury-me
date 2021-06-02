@@ -12,45 +12,41 @@
     $: $monthlyPayment = minimumMonthlyPayment;
 </script>
 
-<div class="ui container">
-    <h1>Set Payment Plan</h1>
-    <div class="ui form">
-        <div class="grouped fields">
-            <div class="field">
-                <div class="ui radio">
-                    <label>
-                        <input
-                            type="radio"
-                            bind:group={$paymentPlan}
-                            value="avalanche"
-                        />
-                        Highest Interest Rate (Avalanche)
-                    </label>
-                </div>
+<div class="ui form">
+    <div class="grouped fields">
+        <div class="field">
+            <div class="ui radio">
+                <label>
+                    <input
+                        type="radio"
+                        bind:group={$paymentPlan}
+                        value="avalanche"
+                    />
+                    Highest Interest Rate (Avalanche)
+                </label>
             </div>
-            <div class="field">
-                <div class="ui radio">
-                    <label>
-                        <input
-                            type="radio"
-                            bind:group={$paymentPlan}
-                            value="snowball"
-                        />
-                        Lowest Principal (Snowball)
-                    </label>
-                </div>
+        </div>
+        <div class="field">
+            <div class="ui radio">
+                <label>
+                    <input
+                        type="radio"
+                        bind:group={$paymentPlan}
+                        value="snowball"
+                    />
+                    Lowest Principal (Snowball)
+                </label>
             </div>
         </div>
     </div>
-
-    <p>monthly payment: {$monthlyPayment}</p>
-    <input
-        type="range"
-        bind:value={$monthlyPayment}
-        min={minimumMonthlyPayment}
-        max={maximumMonthlyPayment}
-    />
 </div>
+<p>monthly payment: {$monthlyPayment}</p>
+<input
+    type="range"
+    bind:value={$monthlyPayment}
+    min={minimumMonthlyPayment}
+    max={maximumMonthlyPayment}
+/>
 
 <style>
 input[type=radio] {

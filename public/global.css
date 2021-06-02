@@ -1,2 +1,10 @@
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 @import 'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css';
+
+
+.text-right {
+    text-align: right !important;
+}
+
+.flex {
+    display: flex !important;
+}
