@@ -21,7 +21,7 @@
 	flex-wrap: wrap;
 	flex-grow: 1;
 	flex-shrink: 1;
-	margin: 1em;
+	padding: 1em;
 }
 
 .inputs {
