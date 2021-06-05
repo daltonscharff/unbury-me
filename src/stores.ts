@@ -17,7 +17,6 @@ export const paymentPlan: Writable<"avalanche" | "snowball"> = writable(<"avalan
 export const storage = derived([loans, paymentPlan], ([$loans, $paymentPlan]) => {
     window.localStorage.setItem("loans", JSON.stringify($loans));
     window.localStorage.setItem("paymentPlan", $paymentPlan);
-    return "saved"
 });
 
 export const paymentSchedule = derived([loans, monthlyPayment, paymentPlan], ([$loans, $monthlyPayment, $paymentPlan]) => {
