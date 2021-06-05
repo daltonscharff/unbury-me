@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { loans } from "./stores";
+	import { loans, storage } from "./stores";
 	import LoanList from "./LoanList.svelte";
 	import PaymentSchedule from "./PaymentSchedule.svelte";
 	import QuickFacts from "./QuickFacts.svelte";
 	import SetPaymentPlan from "./SetPaymentPlan.svelte";
+
+	console.log($storage);
 </script>
 
 <main class="ui container flex">

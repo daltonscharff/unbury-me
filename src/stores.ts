@@ -8,11 +8,17 @@ type Month = Map<
     }
 >;
 
-export const loans: Writable<{ name: string, principal: number, interestPct: number, minPayment: number }[]> = writable([]);
+export const loans: Writable<{ name: string, principal: number, interestPct: number, minPayment: number }[]> = writable(JSON.parse(window.localStorage.getItem('loans')) || []);
 
 export const monthlyPayment: Writable<number> = writable(0);
 
-export const paymentPlan: Writable<"avalanche" | "snowball"> = writable("avalanche");
+export const paymentPlan: Writable<"avalanche" | "snowball"> = writable(<"avalanche" | "snowball">window.localStorage.getItem('paymentPlan') || "avalanche");
+
+export const storage = derived([loans, paymentPlan], ([$loans, $paymentPlan]) => {
+    window.localStorage.setItem("loans", JSON.stringify($loans));
+    window.localStorage.setItem("paymentPlan", $paymentPlan);
+    return "saved"
+});
 
 export const paymentSchedule = derived([loans, monthlyPayment, paymentPlan], ([$loans, $monthlyPayment, $paymentPlan]) => {
     const sortedLoans = [...$loans].sort((a, b) => {
