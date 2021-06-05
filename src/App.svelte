@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { loans } from "./stores";
 	import LoanList from "./LoanList.svelte";
 	import PaymentSchedule from "./PaymentSchedule.svelte";
 	import QuickFacts from "./QuickFacts.svelte";
@@ -11,8 +12,14 @@
 		<LoanList />
 	</div>
 	<div class="flex outputs">
+		{#if $loans.length > 0}
 		<QuickFacts />
 		<PaymentSchedule />
+		{:else}
+		<div>
+			To get started, add a loan.
+		</div>
+		{/if}
 	</div>
 </main>
 
