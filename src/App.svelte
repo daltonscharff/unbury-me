@@ -5,7 +5,7 @@
 	import QuickFacts from "./QuickFacts.svelte";
 	import SetPaymentPlan from "./SetPaymentPlan.svelte";
 
-	console.log($storage);
+	$storage;
 </script>
 
 <main class="ui container flex">
