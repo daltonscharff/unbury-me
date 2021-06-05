@@ -15,7 +15,7 @@
     );
 </script>
 
-<div class="ui statistics">
+<div class="statistics">
     <div class="statistic">
         <div class="value">${totalOwed}</div>
         <div class="label">Total Owed</div>
@@ -36,11 +36,16 @@
 
 <style>
 .statistics {
-    justify-content: center !important;
+    display: flex;
+    justify-content: space-around !important;
+    width: 100%;
+    text-align: center;
+    flex-wrap: wrap;
 }
 
 .statistic {
     flex-shrink: 1;
+    padding: .5em;
 }
 
 .statistic .value {
@@ -51,5 +56,6 @@
     font-size: 1em !important;
     font-weight: normal;
     text-transform: capitalize;
+    margin: .5em auto;
 }
 </style>

@@ -3,7 +3,7 @@
 </script>
 
 <div class="table-container">
-    <table class="ui celled structured unstackable table">
+    <table class="ui structured unstackable table">
         <thead>
             <tr>
                 <th>Month</th>
@@ -37,6 +37,7 @@
 
 <style>
     .table-container {
-        overflow-x: auto !important;
+        max-width: 100%;
+        overflow-y: scroll !important;
     }
 </style>
