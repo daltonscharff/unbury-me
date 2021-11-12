@@ -16,13 +16,13 @@ export const loans: Writable<
       name: "Example loan 1",
       principal: 1000,
       interestPct: 2,
-      minPayment: 20,
+      minPayment: 100,
     },
     {
       name: "Example loan 2",
       principal: 2000,
       interestPct: 3,
-      minPayment: 40,
+      minPayment: 200,
     },
   ]
 );
