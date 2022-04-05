@@ -15,8 +15,8 @@ export const loans: Writable<
     {
       name: "Example loan 1",
       principal: 1000,
-      interestPct: 4,
-      minPayment: 100,
+      interestPct: 2,
+      minPayment: 50,
     },
     {
       name: "Example loan 2",
